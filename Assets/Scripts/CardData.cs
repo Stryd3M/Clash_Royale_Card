@@ -12,7 +12,7 @@ public class CardData : ScriptableObject
     public CardRarity rarity;
     public string type;
     public string targets;
-    public string rangeType;
+    public float range;
     public float hitSpeed;
     public MovementSpeed movementSpeed;
     public int releaseYear;

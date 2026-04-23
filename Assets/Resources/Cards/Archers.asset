@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51a930fc7e9e9544c9525aeace31e242, type: 3}
-  m_Name: Skeletons
+  m_Name: Archers
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: "\u0421\u043A\u0435\u043B\u0435\u0442\u0438\u043A\u0438"
-  cardIcon: {fileID: 4594274849228886550, guid: 4bfb773be9461fb40849cd90ad182a2f, type: 3}
-  elixirCost: 1
+  cardName: "\u041B\u0443\u0447\u043D\u0438\u0446\u044B"
+  cardIcon: {fileID: -3182029110265949921, guid: cd6ee0da4f04199469cabae8bd1570b8, type: 3}
+  elixirCost: 3
   rarity: 0
   type: "\u0412\u043E\u0439\u0441\u043A\u043E"
-  targets: "\u0417\u0435\u043C\u043B\u044F"
-  range: 0.5
-  hitSpeed: 1
-  movementSpeed: 2
+  targets: "\u0412\u043E\u0437\u0434\u0443\u0445 \u0438 \u0437\u0435\u043C\u043B\u044F"
+  range: 5
+  hitSpeed: 0.9
+  movementSpeed: 1
   releaseYear: 2016

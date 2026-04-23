@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     private List<CardData> allCards;
     private CardData secretCard;
+    private HashSet<CardData> guessedCards = new HashSet<CardData>();
 
     public int maxAttempts = 5;
     private int currentAttempts = 0;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
         secretCard = allCards[Random.Range(0, allCards.Count)];
         currentAttempts = 0;
+        guessedCards.Clear();
         UpdateAttemptsUI();
 
         foreach (Transform child in historyContainer) Destroy(child.gameObject);
@@ -46,7 +48,10 @@ public class GameManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(query)) return;
 
-        var results = allCards.Where(c => c.cardName.ToLower().Contains(query.ToLower())).ToList();
+        var results = allCards.Where(c =>
+            c.cardName.ToLower().Contains(query.ToLower()) &&
+            !guessedCards.Contains(c)
+        ).ToList();
 
         foreach (var card in results)
         {
@@ -57,16 +62,32 @@ public class GameManager : MonoBehaviour
 
     public void MakeGuess(CardData guessedCard)
     {
-        if (currentAttempts >= maxAttempts) return;
+        if (currentAttempts >= maxAttempts || guessedCards.Contains(guessedCard)) return;
 
         currentAttempts++;
+        guessedCards.Add(guessedCard);
         UpdateAttemptsUI();
 
         var historyObj = Instantiate(historyItemPrefab, historyContainer);
+        historyObj.transform.SetAsFirstSibling();
         historyObj.GetComponent<HistoryItemUI>().Setup(guessedCard, secretCard);
 
         searchInput.text = "";
         OnSearchInputChanged("");
+
+        CheckGameState(guessedCard);
+    }
+
+    private void CheckGameState(CardData guessedCard)
+    {
+        if (guessedCard == secretCard)
+        {
+            Debug.Log("Победа!");
+        }
+        else if (currentAttempts >= maxAttempts)
+        {
+            Debug.Log("Поражение! Карта была: " + secretCard.cardName);
+        }
     }
 
     void UpdateAttemptsUI()

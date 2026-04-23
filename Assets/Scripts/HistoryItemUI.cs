@@ -34,7 +34,7 @@ public class HistoryItemUI : MonoBehaviour
         CompareEnum((int)guess.rarity, (int)secret.rarity, guess.rarity.ToString(), rarityUI);
         CompareString(guess.type, secret.type, typeUI);
         CompareString(guess.targets, secret.targets, targetsUI);
-        CompareString(guess.rangeType, secret.rangeType, rangeUI);
+        CompareFloat(guess.range, secret.range, rangeUI);
         CompareFloat(guess.hitSpeed, secret.hitSpeed, hitSpeedUI);
         CompareEnum((int)guess.movementSpeed, (int)secret.movementSpeed, guess.movementSpeed.ToString(), moveSpeedUI);
         CompareInt(guess.releaseYear, secret.releaseYear, yearUI);
