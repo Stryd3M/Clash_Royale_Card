@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a930fc7e9e9544c9525aeace31e242, type: 3}
   m_Name: Skeletons
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: "\u0421\u043A\u0435\u043B\u0435\u0442\u0438\u043A\u0438"
+  cardName: "\u0421\u043A\u0435\u043B\u0435\u0442\u044B"
   cardIcon: {fileID: 4594274849228886550, guid: 4bfb773be9461fb40849cd90ad182a2f, type: 3}
   elixirCost: 1
   rarity: 0

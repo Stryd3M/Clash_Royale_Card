@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,13 +13,27 @@ public class GameManager : MonoBehaviour
     private CardData secretCard;
     private HashSet<CardData> guessedCards = new HashSet<CardData>();
 
+    private HashSet<string> unlockedCardNames = new HashSet<string>();
+
     public int maxAttempts = 5;
     private int currentAttempts = 0;
 
+    [Header("UI Panels")]
+    public GameObject gameCanvas;
+    public GameObject winPanel;
+    public GameObject losePanel;
+    public GameObject collectionPanel;
+
+    [Header("Collection UI")]
+    public Transform collectionContainer;
+    public GameObject collectionItemPrefab;
+    public GameObject emptyCollectionText;
+    public TextMeshProUGUI collectionProgressText;
+
+    [Header("Game UI")]
     public TMP_InputField searchInput;
     public Transform searchResultsContainer;
     public GameObject searchResultPrefab;
-
     public Transform historyContainer;
     public GameObject historyItemPrefab;
     public TextMeshProUGUI attemptsText;
@@ -26,6 +42,7 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         allCards = Resources.LoadAll<CardData>("Cards").ToList();
+        LoadCollectionProgress();
         StartNewGame();
     }
 
@@ -36,28 +53,15 @@ public class GameManager : MonoBehaviour
         secretCard = allCards[Random.Range(0, allCards.Count)];
         currentAttempts = 0;
         guessedCards.Clear();
-        UpdateAttemptsUI();
 
+        gameCanvas.SetActive(true);
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+        collectionPanel.SetActive(false);
+
+        UpdateAttemptsUI();
         foreach (Transform child in historyContainer) Destroy(child.gameObject);
         searchInput.text = "";
-    }
-
-    public void OnSearchInputChanged(string query)
-    {
-        foreach (Transform child in searchResultsContainer) Destroy(child.gameObject);
-
-        if (string.IsNullOrWhiteSpace(query)) return;
-
-        var results = allCards.Where(c =>
-            c.cardName.ToLower().Contains(query.ToLower()) &&
-            !guessedCards.Contains(c)
-        ).ToList();
-
-        foreach (var card in results)
-        {
-            var btnObj = Instantiate(searchResultPrefab, searchResultsContainer);
-            btnObj.GetComponent<SearchResultUI>().Setup(card);
-        }
     }
 
     public void MakeGuess(CardData guessedCard)
@@ -82,17 +86,119 @@ public class GameManager : MonoBehaviour
     {
         if (guessedCard == secretCard)
         {
-            Debug.Log("Победа!");
+            UnlockCard(guessedCard);
+            StartCoroutine(ShowWinScreenDelayed());
         }
         else if (currentAttempts >= maxAttempts)
         {
-            Debug.Log("Поражение! Карта была: " + secretCard.cardName);
+            ShowEndScreen(losePanel);
         }
+    }
+
+    private void UnlockCard(CardData card)
+    {
+        if (!unlockedCardNames.Contains(card.cardName))
+        {
+            unlockedCardNames.Add(card.cardName);
+            SaveCollectionProgress();
+        }
+    }
+
+    public void OpenCollectionPanel()
+    {
+        gameCanvas.SetActive(false);
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+        collectionPanel.SetActive(true);
+
+        foreach (Transform child in collectionContainer) Destroy(child.gameObject);
+
+        bool isEmpty = unlockedCardNames.Count == 0;
+        emptyCollectionText.SetActive(isEmpty);
+
+        collectionContainer.parent.parent.GetComponent<UnityEngine.UI.ScrollRect>().enabled = !isEmpty;
+
+        collectionProgressText.text = $"{unlockedCardNames.Count}/{allCards.Count}";
+
+        if (!isEmpty)
+        {
+            var unlockedCards = allCards.Where(c => unlockedCardNames.Contains(c.cardName)).ToList();
+
+            foreach (var card in unlockedCards)
+            {
+                var itemObj = Instantiate(collectionItemPrefab, collectionContainer);
+                itemObj.GetComponent<CollectionItemUI>().Setup(card);
+            }
+        }
+    }
+
+    public void CloseCollectionPanel()
+    {
+        collectionPanel.SetActive(false);
+        gameCanvas.SetActive(true);
+    }
+    private void SaveCollectionProgress()
+    {
+        string saveString = string.Join(",", unlockedCardNames);
+        PlayerPrefs.SetString("UnlockedCards", saveString);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadCollectionProgress()
+    {
+        unlockedCardNames.Clear();
+        if (PlayerPrefs.HasKey("UnlockedCards"))
+        {
+            string saveString = PlayerPrefs.GetString("UnlockedCards");
+            if (!string.IsNullOrEmpty(saveString))
+            {
+                string[] names = saveString.Split(',');
+                foreach (var n in names) unlockedCardNames.Add(n);
+            }
+        }
+    }
+
+    private IEnumerator ShowWinScreenDelayed()
+    {
+        yield return new WaitForSeconds(1.5f);
+        gameCanvas.SetActive(false);
+        winPanel.SetActive(true);
+        winPanel.GetComponent<WinPanelUI>().Setup(secretCard);
+    }
+
+    private void ShowEndScreen(GameObject panel)
+    {
+        gameCanvas.SetActive(false);
+        panel.SetActive(true);
+    }
+
+    public void RestartButton() => StartNewGame();
+    public void MainMenuButton() => SceneManager.LoadScene("Menu");
+
+    public void AddExtraAttempt()
+    {
+        maxAttempts++;
+        currentAttempts--;
+        losePanel.SetActive(false);
+        gameCanvas.SetActive(true);
+        UpdateAttemptsUI();
     }
 
     void UpdateAttemptsUI()
     {
         if (attemptsText != null)
             attemptsText.text = $"Осталось попыток: {maxAttempts - currentAttempts}";
+    }
+
+    public void OnSearchInputChanged(string query)
+    {
+        foreach (Transform child in searchResultsContainer) Destroy(child.gameObject);
+        if (string.IsNullOrWhiteSpace(query)) return;
+        var results = allCards.Where(c => c.cardName.ToLower().Contains(query.ToLower()) && !guessedCards.Contains(c)).ToList();
+        foreach (var card in results)
+        {
+            var btnObj = Instantiate(searchResultPrefab, searchResultsContainer);
+            btnObj.GetComponent<SearchResultUI>().Setup(card);
+        }
     }
 }
