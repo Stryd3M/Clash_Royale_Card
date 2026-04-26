@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a930fc7e9e9544c9525aeace31e242, type: 3}
+  m_Name: "\u0412\u0430\u043B\u044C\u043A\u0438\u0440\u0438\u044F"
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: "\u0412\u0430\u043B\u044C\u043A\u0438\u0440\u0438\u044F"
+  cardIcon: {fileID: -3342196730150140938, guid: 495a243a55506d54facb6b01ee5e0039, type: 3}
+  elixirCost: 4
+  rarity: 1
+  type: "\u0412\u043E\u0438\u043D"
+  targets: "\u041D\u0430\u0437\u0435\u043C\u043D\u044B\u0435"
+  range: 0.5
+  hitSpeed: 1.5
+  movementSpeed: 1
+  releaseYear: 2016

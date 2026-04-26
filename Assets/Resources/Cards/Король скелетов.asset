@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a930fc7e9e9544c9525aeace31e242, type: 3}
+  m_Name: "\u041A\u043E\u0440\u043E\u043B\u044C \u0441\u043A\u0435\u043B\u0435\u0442\u043E\u0432"
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardName: "\u041A\u043E\u0440\u043E\u043B\u044C \u0441\u043A\u0435\u043B\u0435\u0442\u043E\u0432"
+  cardIcon: {fileID: -9044787150798735234, guid: fa44854623bad8347b689906fe9279e8, type: 3}
+  elixirCost: 4
+  rarity: 4
+  type: "\u0412\u043E\u0438\u043D"
+  targets: "\u041D\u0430\u0437\u0435\u043C\u043D\u044B\u0435"
+  range: 0.5
+  hitSpeed: 1.6
+  movementSpeed: 1
+  releaseYear: 2021

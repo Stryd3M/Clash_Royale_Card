@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51a930fc7e9e9544c9525aeace31e242, type: 3}
-  m_Name: Skeletons
+  m_Name: "\u041F.\u0415.\u041A.\u041A.\u0410."
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: "\u0421\u043A\u0435\u043B\u0435\u0442\u044B"
-  cardIcon: {fileID: 4594274849228886550, guid: 4bfb773be9461fb40849cd90ad182a2f, type: 3}
-  elixirCost: 1
-  rarity: 0
-  type: "\u0412\u043E\u0439\u0441\u043A\u043E"
-  targets: "\u0417\u0435\u043C\u043B\u044F"
+  cardName: "\u041F.\u0415.\u041A.\u041A.\u0410."
+  cardIcon: {fileID: -2586431858785892578, guid: 2dd2e41ea2f91f342b96e403e3ebf73f, type: 3}
+  elixirCost: 7
+  rarity: 2
+  type: "\u0412\u043E\u0438\u043D"
+  targets: "\u041D\u0430\u0437\u0435\u043C\u043D\u044B\u0435"
   range: 0.5
-  hitSpeed: 1
-  movementSpeed: 2
+  hitSpeed: 1.8
+  movementSpeed: 0
   releaseYear: 2016
