@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         else if (currentAttempts >= maxAttempts)
         {
             ShowEndScreen(losePanel);
+            SoundManager.instance.Lose();
         }
     }
 
@@ -106,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     public void OpenCollectionPanel()
     {
+        SoundManager.instance.Click();
         gameCanvas.SetActive(false);
         winPanel.SetActive(false);
         losePanel.SetActive(false);
@@ -134,6 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void CloseCollectionPanel()
     {
+        SoundManager.instance.Click();
         collectionPanel.SetActive(false);
         gameCanvas.SetActive(true);
     }
@@ -161,6 +164,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator ShowWinScreenDelayed()
     {
         yield return new WaitForSeconds(1.5f);
+        SoundManager.instance.Win();
         gameCanvas.SetActive(false);
         winPanel.SetActive(true);
         winPanel.GetComponent<WinPanelUI>().Setup(secretCard);
@@ -172,11 +176,20 @@ public class GameManager : MonoBehaviour
         panel.SetActive(true);
     }
 
-    public void RestartButton() => StartNewGame();
-    public void MainMenuButton() => SceneManager.LoadScene("Menu");
+    public void RestartButton()
+    {
+        SoundManager.instance.Click();
+        StartNewGame();
+    }
+    public void MainMenuButton()
+    {
+        SoundManager.instance.Click();
+        SceneManager.LoadScene("Menu");
+    }
 
     public void AddExtraAttempt()
     {
+        SoundManager.instance.Click();
         maxAttempts++;
         currentAttempts--;
         losePanel.SetActive(false);
