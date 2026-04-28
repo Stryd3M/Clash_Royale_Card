@@ -5,8 +5,6 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
-    static bool isFirst = false;
-
     public AudioSource musicAudioSource;
     public AudioSource sfxAudioSource;
 
@@ -21,12 +19,14 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        if (!isFirst)
+        if (instance == null)
         {
-            isFirst = true;
             instance = this;
-
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
         }
     }
     private void Start()
@@ -38,23 +38,8 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        if(SettingsMenu.isMusic == false)
-        {
-            musicAudioSource.volume = 0f;
-        }
-        else
-        {
-            musicAudioSource.volume = 1f;
-        }
-
-        if(SettingsMenu.isSfx == false)
-        {
-            sfxAudioSource.volume = 0f;
-        }
-        else
-        {
-            sfxAudioSource.volume = 1f;
-        }
+        musicAudioSource.volume = SettingsMenu.musicVolume;
+        sfxAudioSource.volume = SettingsMenu.sfxVolume;
     }
 
     public void Click()

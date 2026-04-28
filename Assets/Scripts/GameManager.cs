@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public int maxAttempts = 5;
     private int currentAttempts = 0;
 
-    private string rewardId = "0";
+    private string rewardId = "ad1";
 
     [Header("UI Panels")]
     public GameObject gameCanvas;
@@ -44,6 +44,14 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         YG2.onRewardAdv += AddExtraAttempt;
+    }
+    private void OnDestroy()
+    {
+        YG2.onRewardAdv -= AddExtraAttempt;
+    }
+    private void OnDisable()
+    {
+        YG2.onRewardAdv -= AddExtraAttempt;
     }
 
     void Awake()
@@ -202,15 +210,21 @@ public class GameManager : MonoBehaviour
 
     public void AddExtraAttempt(string id)
     {
-        if(id == rewardId)
+        Debug.Log($"Событие рекламы сработало! Пришел ID: '{id}'");
+
+        if (id == rewardId)
         {
+            Debug.Log("ID совпал, выдаем попытку!");
             maxAttempts++;
             currentAttempts--;
             losePanel.SetActive(false);
             gameCanvas.SetActive(true);
             UpdateAttemptsUI();
         }
-        
+        else
+        {
+            Debug.Log($"ID не совпал. Ожидали '{rewardId}', а пришел '{id}'");
+        }
     }
 
     public void RewardAdvShow(string id)

@@ -1,73 +1,29 @@
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public static bool isMusic = true;
-    public static bool isSfx = true;
+    public static float musicVolume = 1f;
+    public static float sfxVolume = 1f;
 
-    public TMP_Text musicText;
-    public TMP_Text sfxText;
+    [Header("Слайдеры")]
+    public Slider musicSlider;
+    public Slider sfxSlider;
 
     private void Start()
     {
-        if(isMusic)
-        {
-            musicText.text = "ВКЛ";
-            musicText.color = Color.green;
-        }
-        else
-        {
-            musicText.text = "ВЫКЛ";
-            musicText.color = Color.red;
-        }
-
-        if (isSfx)
-        {
-            sfxText.text = "ВКЛ";
-            sfxText.color = Color.green;
-        }
-        else
-        {
-            sfxText.text = "ВЫКЛ";
-            sfxText.color = Color.red;
-        }
+        if (musicSlider != null) musicSlider.value = musicVolume;
+        if (sfxSlider != null) sfxSlider.value = sfxVolume;
     }
 
-    public void ToggleMusic()
+    public void SetMusicVolume(float value)
     {
-        isMusic = !isMusic;
-
-        if (isMusic)
-        {
-            musicText.text = "ВКЛ";
-            musicText.color = Color.green;
-        }
-        else
-        {
-            musicText.text = "ВЫКЛ";
-            musicText.color = Color.red;
-        }
-
-        SoundManager.instance.Click();
+        musicVolume = value;
     }
 
-    public void ToggleSfx()
+    public void SetSfxVolume(float value)
     {
-        isSfx = !isSfx;
-
-        if (isSfx)
-        {
-            sfxText.text = "ВКЛ";
-            sfxText.color = Color.green;
-        }
-        else
-        {
-            sfxText.text = "ВЫКЛ";
-            sfxText.color = Color.red;
-        }
-
-        SoundManager.instance.Click();
+        sfxVolume = value;
     }
 
     public void CloseButton()
