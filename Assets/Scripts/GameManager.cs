@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public int maxAttempts = 5;
     private int currentAttempts = 0;
 
+    private string rewardId = "0";
+
     [Header("UI Panels")]
     public GameObject gameCanvas;
     public GameObject winPanel;
@@ -38,6 +40,11 @@ public class GameManager : MonoBehaviour
     public Transform historyContainer;
     public GameObject historyItemPrefab;
     public TextMeshProUGUI attemptsText;
+
+    private void OnEnable()
+    {
+        YG2.onRewardAdv += AddExtraAttempt;
+    }
 
     void Awake()
     {
@@ -63,6 +70,8 @@ public class GameManager : MonoBehaviour
         UpdateAttemptsUI();
         foreach (Transform child in historyContainer) Destroy(child.gameObject);
         searchInput.text = "";
+
+        YG2.InterstitialAdvShow();
     }
 
     public void MakeGuess(CardData guessedCard)
@@ -172,6 +181,7 @@ public class GameManager : MonoBehaviour
         gameCanvas.SetActive(false);
         winPanel.SetActive(true);
         winPanel.GetComponent<WinPanelUI>().Setup(secretCard);
+        YG2.InterstitialAdvShow();
     }
 
     private void ShowEndScreen(GameObject panel)
@@ -191,14 +201,23 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public void AddExtraAttempt()
+    public void AddExtraAttempt(string id)
+    {
+        if(id == rewardId)
+        {
+            maxAttempts++;
+            currentAttempts--;
+            losePanel.SetActive(false);
+            gameCanvas.SetActive(true);
+            UpdateAttemptsUI();
+        }
+        
+    }
+
+    public void RewardAdvShow(string id)
     {
         SoundManager.instance.Click();
-        maxAttempts++;
-        currentAttempts--;
-        losePanel.SetActive(false);
-        gameCanvas.SetActive(true);
-        UpdateAttemptsUI();
+        YG2.RewardedAdvShow(id);
     }
 
     void UpdateAttemptsUI()
