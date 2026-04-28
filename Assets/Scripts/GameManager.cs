@@ -215,7 +215,6 @@ public class GameManager : MonoBehaviour
 
     public void RewardAdvShow(string id)
     {
-        SoundManager.instance.Click();
         YG2.RewardedAdvShow(id);
     }
 

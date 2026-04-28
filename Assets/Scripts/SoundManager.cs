@@ -5,6 +5,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
 
+    static bool isFirst = false;
+
     public AudioSource musicAudioSource;
     public AudioSource sfxAudioSource;
 
@@ -17,12 +19,18 @@ public class SoundManager : MonoBehaviour
     [Space]
     public AudioClip music;
 
+    private void Awake()
+    {
+        if (!isFirst)
+        {
+            isFirst = true;
+            instance = this;
+
+            DontDestroyOnLoad(this);
+        }
+    }
     private void Start()
     {
-        instance = this;
-
-        DontDestroyOnLoad(gameObject);
-
         musicAudioSource.clip = music;
         musicAudioSource.loop = true;
         musicAudioSource.Play();
