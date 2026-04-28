@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using YG;
 
 public class GameManager : MonoBehaviour
 {
@@ -163,6 +164,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ShowWinScreenDelayed()
     {
+        YG2.saves.AddWin();
+        YG2.SaveProgress();
+
         yield return new WaitForSeconds(1.5f);
         SoundManager.instance.Win();
         gameCanvas.SetActive(false);
