@@ -70,8 +70,6 @@ public class GameManager : MonoBehaviour
         UpdateAttemptsUI();
         foreach (Transform child in historyContainer) Destroy(child.gameObject);
         searchInput.text = "";
-
-        YG2.InterstitialAdvShow();
     }
 
     public void MakeGuess(CardData guessedCard)
@@ -193,6 +191,7 @@ public class GameManager : MonoBehaviour
     public void RestartButton()
     {
         SoundManager.instance.Click();
+        YG2.InterstitialAdvShow();
         StartNewGame();
     }
     public void MainMenuButton()
