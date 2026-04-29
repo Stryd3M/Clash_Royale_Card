@@ -31,12 +31,12 @@ public class HistoryItemUI : MonoBehaviour
         cardIcon.sprite = guess.cardIcon;
 
         CompareInt(guess.elixirCost, secret.elixirCost, elixirUI);
-        CompareEnum((int)guess.rarity, (int)secret.rarity, guess.rarity.ToString(), rarityUI);
+        CompareEnum((int)guess.rarity, (int)secret.rarity, GetRarityText(guess.rarity), rarityUI);
         CompareString(guess.type, secret.type, typeUI);
         CompareString(guess.targets, secret.targets, targetsUI);
         CompareFloat(guess.range, secret.range, rangeUI);
         CompareFloat(guess.hitSpeed, secret.hitSpeed, hitSpeedUI);
-        CompareEnum((int)guess.movementSpeed, (int)secret.movementSpeed, guess.movementSpeed.ToString(), moveSpeedUI);
+        CompareEnum((int)guess.movementSpeed, (int)secret.movementSpeed, GetSpeedText(guess.movementSpeed), moveSpeedUI);
         CompareInt(guess.releaseYear, secret.releaseYear, yearUI);
     }
 
@@ -70,5 +70,29 @@ public class HistoryItemUI : MonoBehaviour
         ui.bg.color = guessVal == secretVal ? correctColor : wrongColor;
         if (ui.upArrow != null) ui.upArrow.SetActive(secretVal > guessVal);
         if (ui.downArrow != null) ui.downArrow.SetActive(secretVal < guessVal);
+    }
+
+    private string GetSpeedText(MovementSpeed speed)
+    {
+        switch (speed)
+        {
+            case MovementSpeed.Slow: return "Медленный";
+            case MovementSpeed.Medium: return "Средний";
+            case MovementSpeed.Fast: return "Быстрый";
+            case MovementSpeed.VeryFast: return "Очень быстрый";
+            default: return "";
+        }
+    }
+    private string GetRarityText(CardRarity rarity)
+    {
+        switch (rarity)
+        {
+            case CardRarity.Common: return "Обычная";
+            case CardRarity.Rare: return "Редкая";
+            case CardRarity.Epic: return "Эпическая";
+            case CardRarity.Legendary: return "Легендарная";
+            case CardRarity.Champion: return "Чемпион";
+            default: return "";
+        }
     }
 }
