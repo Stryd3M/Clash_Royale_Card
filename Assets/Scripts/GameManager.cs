@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     private HashSet<string> unlockedCardNames = new HashSet<string>();
 
+    public int defaultMaxAttempts = 5;
     public int maxAttempts = 5;
     private int currentAttempts = 0;
 
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         if (allCards.Count == 0) return;
 
+        maxAttempts = defaultMaxAttempts;
         secretCard = allCards[Random.Range(0, allCards.Count)];
         currentAttempts = 0;
         guessedCards.Clear();
@@ -215,7 +217,7 @@ public class GameManager : MonoBehaviour
         if (id == rewardId)
         {
             Debug.Log("ID совпал, выдаем попытку!");
-            maxAttempts++;
+            maxAttempts += 1;
             currentAttempts--;
             losePanel.SetActive(false);
             gameCanvas.SetActive(true);
