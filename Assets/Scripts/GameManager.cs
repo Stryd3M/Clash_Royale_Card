@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using YG;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,19 +40,6 @@ public class GameManager : MonoBehaviour
     public Transform historyContainer;
     public GameObject historyItemPrefab;
     public TextMeshProUGUI attemptsText;
-
-    private void OnEnable()
-    {
-        YG2.onRewardAdv += AddExtraAttempt;
-    }
-    private void OnDestroy()
-    {
-        YG2.onRewardAdv -= AddExtraAttempt;
-    }
-    private void OnDisable()
-    {
-        YG2.onRewardAdv -= AddExtraAttempt;
-    }
 
     void Awake()
     {
@@ -181,15 +167,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ShowWinScreenDelayed()
     {
-        YG2.saves.AddWin();
-        YG2.SaveProgress();
-
         yield return new WaitForSeconds(1.5f);
         SoundManager.instance.Win();
         gameCanvas.SetActive(false);
         winPanel.SetActive(true);
         winPanel.GetComponent<WinPanelUI>().Setup(secretCard);
-        YG2.InterstitialAdvShow();
     }
 
     private void ShowEndScreen(GameObject panel)
@@ -201,7 +183,6 @@ public class GameManager : MonoBehaviour
     public void RestartButton()
     {
         SoundManager.instance.Click();
-        YG2.InterstitialAdvShow();
         StartNewGame();
     }
     public void MainMenuButton()
@@ -212,26 +193,11 @@ public class GameManager : MonoBehaviour
 
     public void AddExtraAttempt(string id)
     {
-        Debug.Log($"Событие рекламы сработало! Пришел ID: '{id}'");
-
-        if (id == rewardId)
-        {
-            Debug.Log("ID совпал, выдаем попытку!");
-            maxAttempts += 1;
-            currentAttempts--;
-            losePanel.SetActive(false);
-            gameCanvas.SetActive(true);
-            UpdateAttemptsUI();
-        }
-        else
-        {
-            Debug.Log($"ID не совпал. Ожидали '{rewardId}', а пришел '{id}'");
-        }
-    }
-
-    public void RewardAdvShow(string id)
-    {
-        YG2.RewardedAdvShow(id);
+        maxAttempts += 1;
+        currentAttempts--;
+        losePanel.SetActive(false);
+        gameCanvas.SetActive(true);
+        UpdateAttemptsUI();
     }
 
     void UpdateAttemptsUI()

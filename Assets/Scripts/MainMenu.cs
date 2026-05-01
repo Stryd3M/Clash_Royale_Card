@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using YG;
 
 public class MainMenu : MonoBehaviour
 {
@@ -15,14 +14,6 @@ public class MainMenu : MonoBehaviour
         s = gameObject.GetComponentsInChildren<Image>();
 
         instance = this;
-    }
-
-    private void Start()
-    {
-        YG2.GetLanguage();
-        YG2.GameReadyAPI();
-
-        YG2.InterstitialAdvShow();
     }
 
     public void Play()
